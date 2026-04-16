@@ -2,7 +2,7 @@
 
 A [Model Context Protocol](https://modelcontextprotocol.io) server for the [Kroger Public API](https://developer.kroger.com/). Lets Claude (or any MCP client) search Kroger products, find stores, and add items to your Kroger cart.
 
-Built for use with [Claude Code](https://claude.com/claude-code), Claude Desktop, or any MCP-compatible client.
+Built for use with [Claude Code](https://claude.com/claude-code), Claude Desktop, Claude Cowork (via the Desktop bridge), or any MCP-compatible client.
 
 ## Features
 
@@ -48,6 +48,8 @@ This prints a URL — open it, log in, click Authorize, then paste the `code=...
 
 ## MCP Client Configuration
 
+You have two ways to supply credentials: a `.env` file next to the server (shown in the installation steps above), or inline via the `env` block in your MCP client config (shown below). The `env` block is useful when you don't want a `.env` file on disk.
+
 ### Claude Code
 
 Add to your project's `.mcp.json` (or run `claude mcp add`):
@@ -65,18 +67,31 @@ Add to your project's `.mcp.json` (or run `claude mcp add`):
 
 ### Claude Desktop
 
-Add to your `claude_desktop_config.json`:
+Edit `claude_desktop_config.json`:
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
   "mcpServers": {
     "kroger": {
       "command": "python3",
-      "args": ["/absolute/path/to/kroger-mcp/server.py"]
+      "args": ["/absolute/path/to/kroger-mcp/server.py"],
+      "env": {
+        "KROGER_CLIENT_ID": "your_client_id",
+        "KROGER_CLIENT_SECRET": "your_secret",
+        "KROGER_REDIRECT_URI": "http://localhost:8000/callback"
+      }
     }
   }
 }
 ```
+
+The `env` block is optional — if you've set up a `.env` file next to `server.py`, you can omit it.
+
+### Claude Cowork
+
+Cowork can use the Kroger tools through the **Claude Desktop bridge**. Any MCP server registered in your local Claude Desktop config is automatically available inside your Cowork sessions — no separate hosting or remote URL needed. Just complete the Claude Desktop setup above, and restart Desktop.
 
 Restart Claude Code/Desktop after updating the config.
 
