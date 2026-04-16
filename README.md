@@ -146,6 +146,10 @@ The user token auto-refreshes via the refresh_token. If the refresh token expire
 - Product search works best with specific terms ("boneless skinless chicken breast" beats "chicken").
 - Prices and availability require a `location_id` — they're store-specific.
 
+## Retrospective
+
+If you're new to MCP and wondering where to start — read [RETRO.md](RETRO.md). It's a candid writeup of what worked, what didn't, and the detours we took building this. Aimed at people who aren't sure how Claude Code, Desktop, Cowork, and the MCP Registry fit together.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
